@@ -36,10 +36,6 @@ public class AppointmentController {
 				@RequestParam String startTime, @RequestParam String endTime) {
 					
 			return null;
-
-		
-		
-
 	}
 
 	@PostMapping(value = "/schedule-appointment", produces = "application/json")

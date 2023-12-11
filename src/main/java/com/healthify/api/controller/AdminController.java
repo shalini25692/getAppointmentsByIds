@@ -80,7 +80,7 @@ public class AdminController {
 	@TrackExecutionTime
 	public ResponseEntity<List<User>> getAllAdmin() {
 		List<User> list = this.userService.getAllUsers();
-		if (!list.isEmpty()) {
+		if (list!=null && !list.isEmpty()) {
 			LOG.info("User Found");
 			return new ResponseEntity<List<User>>(list, HttpStatus.OK);
 		} else {
