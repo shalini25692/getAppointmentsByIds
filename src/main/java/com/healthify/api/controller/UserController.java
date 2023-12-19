@@ -25,8 +25,6 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	
-
 	@GetMapping(value = "get-user-by-id/{id}", produces = "application/json")
 	public ResponseEntity<User> getUserById(@PathVariable String id) {
 		return null;

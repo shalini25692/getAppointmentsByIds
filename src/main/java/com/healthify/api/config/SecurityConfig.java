@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/appointment/**","/receptionist/**").hasRole("RECEPTIONIST") // RECEPTIONIST USER
 				.antMatchers("/doctor/**").hasRole("DOCTOR") // DOCTOR USER
 				.antMatchers("/pharmacist/**").hasRole("PHARMACIST") // PHARMACIST USER
-				.antMatchers("/swagger-ui.html").hasAnyRole("ADMIN","RECEPTIONIST","DOCTOR","PHARMACIST")
+				.antMatchers("/swagger-ui.html","/user/**").hasAnyRole("ADMIN","RECEPTIONIST","DOCTOR","PHARMACIST")
 
 				
 
