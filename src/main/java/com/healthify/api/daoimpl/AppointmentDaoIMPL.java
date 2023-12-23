@@ -3,7 +3,11 @@ package com.healthify.api.daoimpl;
 import java.sql.Date;
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -54,7 +58,17 @@ public class AppointmentDaoIMPL implements AppointmentDao {
 
 	@Override
 	public List<Appointment> getAppointmentsByDate(Date date) {
-		return null;
+		Session session=sf.getCurrentSession();
+		List<Appointment>list=null;
+		try {
+			Criteria criteria=session.createCriteria(Appointment.class);
+			Criterion criterion=Restrictions.like("appointmentDate", date);
+			criteria.add(criterion);
+			list=criteria.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 	@Override

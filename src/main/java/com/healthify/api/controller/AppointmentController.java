@@ -4,7 +4,9 @@ import java.sql.Date;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jfree.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.healthify.api.entity.Appointment;
+import com.healthify.api.exception.ResourceNotFoundException;
 import com.healthify.api.service.AppointmentService;
 
 /**
@@ -73,7 +76,16 @@ public class AppointmentController {
 
 	@GetMapping(value = "/get-appointment-by-apointmentdate", produces = "application/json")
 	public ResponseEntity<List<Appointment>> getAppointmentsByDate(@RequestParam Date appointmentDate) {
-		return null;
+		List<Appointment> appointmentsByDate = service.getAppointmentsByDate(appointmentDate);
+		if(appointmentsByDate!=null && !appointmentsByDate.isEmpty()) {
+			Log.info("Appointment are found");
+			return new ResponseEntity<List<Appointment>>(appointmentsByDate, HttpStatus.FOUND);
+		}
+		else {
+			Log.info("Appointment are not found");
+			throw new ResourceNotFoundException("Appointments are not found at "+ appointmentDate);
+		}
+	
 	}
 
 	@GetMapping(value = "/get-count-by-appointment-date", produces = "application/json")
