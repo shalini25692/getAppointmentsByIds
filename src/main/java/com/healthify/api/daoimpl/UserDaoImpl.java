@@ -3,6 +3,8 @@ package com.healthify.api.daoimpl;
 import java.sql.Date;
 import java.util.List;
 
+import javax.persistence.PersistenceException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -190,12 +192,23 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public Role addRole(Role role) {
-		Session session = sf.getCurrentSession();
+		Session session = sf.openSession();
 		try {
+			session.save(role);
+			session.beginTransaction().commit();
 
-		} catch (Exception e) {
-			e.printStackTrace();
+			return role;
+
+		} catch (PersistenceException pe) {
+			pe.printStackTrace();
+			LOG.info(pe.getMessage());
 		}
+
+		catch (Exception e) {
+			e.printStackTrace();
+			LOG.info(e.getMessage());
+		}
+		session.close();
 		return null;
 	}
 

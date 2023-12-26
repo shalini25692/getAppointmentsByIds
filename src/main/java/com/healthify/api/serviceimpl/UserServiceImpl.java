@@ -1,7 +1,9 @@
 package com.healthify.api.serviceimpl;
 
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -88,9 +90,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Role addRole(Role role) {
-
-		return null;
-
+		if(Arrays.asList(roles).contains(role.getName())) {
+		return dao.addRole(role);
+		}else {
+			return null;
+		}
+		
 	}
 
 	@Override

@@ -2,18 +2,23 @@ package com.healthify.api.entity;
 
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Role {
 	@Id
 	private int id;
+
+	@NotBlank(message = "Role name cannot be blank")
+	@Column(nullable = false)
 	private String name;
-	
+
 	@ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+	private Set<User> users;
 
 	public Role() {
 		// TODO Auto-generated constructor stub

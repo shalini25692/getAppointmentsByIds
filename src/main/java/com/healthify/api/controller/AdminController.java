@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.healthify.api.aop.TrackExecutionTime;
 import com.healthify.api.entity.Role;
 import com.healthify.api.entity.User;
@@ -89,17 +90,28 @@ public class AdminController {
 		}
 	}
 
+//	@PostMapping(value = "/add-role", produces = "application/json")
+//	public ResponseEntity<Object> addRole(@RequestBody  Role role) {
+//		Role userRole = userService.addRole(role);
+//		if (userRole != null) {
+//			return new ResponseEntity<Object>(role, HttpStatus.CREATED);
+//		} else {
+//			return new ResponseEntity<Object>("Role Not Added", HttpStatus.OK);
+//
+//		}
+//	}
+
 	@PostMapping(value = "/add-role", produces = "application/json")
-	public ResponseEntity<Object> addRole(@RequestBody Role role) {
+	public ResponseEntity<Object> addRole(@RequestBody @Valid Role role) {
 		Role userRole = userService.addRole(role);
 		if (userRole != null) {
 			return new ResponseEntity<Object>(role, HttpStatus.CREATED);
 		} else {
-			return new ResponseEntity<Object>("Role Not Added", HttpStatus.OK);
+			return new ResponseEntity<Object>("Role ID & Role Name should be unique", HttpStatus.CONFLICT);
 
 		}
 	}
-
+	
 	@GetMapping(value = "/get-role-by-id/{roleId}", produces = "application/json")
 	public ResponseEntity<Role> getRoleById(@PathVariable int roleId) {
 		Role role = userService.getRoleById(roleId);
