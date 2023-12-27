@@ -1,15 +1,21 @@
 package com.healthify.api.controller;
 
+import javax.validation.Valid;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.healthify.api.entity.User;
+import com.healthify.api.exception.ResourceAlreadyExistsException;
 import com.healthify.api.service.UserService;
 
 /**
@@ -29,6 +35,39 @@ public class UserController {
 	public ResponseEntity<User> getUserById(@PathVariable String id) {
 		return null;
 	}
+	
+	@PostMapping(value="/add-user",  produces = "application/json")
+	 ResponseEntity<String> addUser( @RequestBody User user) {
+		
+		System.out.println(user);
+		boolean addUser = userService.addUser(user);
+		if(addUser==true)
+		{
+			LOG.info("Added User :" + user);
+			 return ResponseEntity.status(HttpStatus.OK).body("User addedd succesfully");
+		}
+		else
+		{
+			LOG.info("User Already Exixts With >ID:" + user.getUsername());
+			throw new ResourceAlreadyExistsException("User already prasent in db");
+		}
+		
+	}
+	
+	@GetMapping(value="/get-total-user-count",  produces = "application/json")
+	
+	public Long getUsersTotalCounts()
+	{
+		Long counts = userService.getUsersTotalCounts();
+		return counts;
+	}
+	
+	
+	/*
+	 * @PostMapping ("/save-otp/{email}") public String saveOtp(@PathVariable String
+	 * email) { boolean saveOtp = userService.saveOtp(email); if(saveOtp==true) {
+	 * return "otp is generated"; } else { return "Somthing is wrong"; } }
+	 */
 
 	
 

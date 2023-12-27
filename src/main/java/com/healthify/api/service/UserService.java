@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.healthify.api.entity.Otp;
 import com.healthify.api.entity.Role;
 import com.healthify.api.entity.User;
 import com.healthify.api.security.CustomUserDetail;
@@ -39,6 +40,8 @@ public interface UserService {
 	
 	
 	public String generateReport();
+	
+	
 	
 
 }

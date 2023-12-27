@@ -46,7 +46,8 @@ public class JwtUtil implements Serializable {
         return claimsResolver.apply(claims);
     }
 
-    private Claims getAllClaimsFromToken(String token) {
+    @SuppressWarnings("deprecation")
+	private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
                 .setSigningKey(JwtConstatnt.SIGNING_KEY)
                 .parseClaimsJws(token)

@@ -34,6 +34,8 @@ public interface UserDao {
 	Role addRole(Role role);
 
 	public Role getRoleById(int roleId);
+	
+	public User getUserByEmail(String email);
 
 //////////////////////////////////////////
 	public boolean saveOtp(Otp otp);

@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,13 +34,13 @@ public class AuthController {
 
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	CustomUserDetailService customUserDetailService;
-	
+
 	@Autowired
 	JwtUtil jwtUtil;
-	
+
 	@Autowired
 	EmailPasswordService emailPasswordService;
 
@@ -47,39 +48,48 @@ public class AuthController {
 	private AuthenticationManager authenticationManager;
 
 	// completed
-	@PostMapping(value = "/login-user",produces = "application/json")
+	@PostMapping(value = "/login-user", produces = "application/json")
 	@TrackExecutionTime
-	public ResponseEntity<?> loginAdmin(@RequestBody User user,HttpServletResponse response) throws AuthenticationException {
-		LOG.info("in Login User = "+user.getUsername());
-		
-        final Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        user.getUsername(),
-                        user.getPassword()
-                )
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication); //check 
-        final String token = jwtUtil.generateToken(authentication); 
-        response.addHeader("token", token);
-       return ResponseEntity.ok(new JwtResponse(token));
-		
-		
-    
-    }
-	
+	public ResponseEntity<?> loginAdmin(@RequestBody User user, HttpServletResponse response)
+			throws AuthenticationException {
+		LOG.info("in Login User = " + user.getUsername());
+
+		final Authentication authentication = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+		SecurityContextHolder.getContext().setAuthentication(authentication); // check
+		final String token = jwtUtil.generateToken(authentication);
+		response.addHeader("token", token);
+		return ResponseEntity.ok(new JwtResponse(token));
+
+	}
+
 	@PostMapping(value = "/reset-password-by-qa")
-	public ResponseEntity<String> resetPasswordByQA(@RequestBody  ResetPasswordDetail detail) {
+	public ResponseEntity<String> resetPasswordByQA(@RequestBody ResetPasswordDetail detail) {
 		return null;
 	}
 
 	@PostMapping(value = "/reset-password-by-otp")
-	public ResponseEntity<String> resetPasswordByOtp(@RequestBody  ResetPasswordDetail detail) {
-		return null;
+	public ResponseEntity<String> resetPasswordByOtp(@RequestBody ResetPasswordDetail detail) {
+		if (!detail.getNewPassword().equals(detail.getConfirmPassword())) {
+			return ResponseEntity.status(HttpStatus.OK).body("password does not match");
+		} else {
+
+			String otp = emailPasswordService.resetPasswordByOtp(detail);
+			if (otp != null) {
+				return ResponseEntity.status(HttpStatus.OK).body("password updated successfully");
+			}
+			return ResponseEntity.status(HttpStatus.OK).body("something is wrong");
+		}
 	}
-	
+
 	@GetMapping(value = "/send-otp/{userId}")
-	public ResponseEntity<String> sendOtp(@PathVariable String userId){
-		return null;
+	public ResponseEntity<String> sendOtp(@PathVariable String userId) {
+		String sendOtp = emailPasswordService.sendOtp(userId);
+		if (sendOtp != null) {
+			return ResponseEntity.status(HttpStatus.OK).body("genereted");
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body("something is wrong");
+		}
 	}
 
 }

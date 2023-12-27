@@ -18,8 +18,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @author RAM
  *
  */
+
 @Configuration
 @EnableTransactionManagement
+
 public class HibernateConfiguration {
 
 	@Value("${db.driver}")

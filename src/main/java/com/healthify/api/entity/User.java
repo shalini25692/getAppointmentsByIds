@@ -19,6 +19,7 @@ import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author RAM
@@ -66,10 +67,12 @@ public class User {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
 	private Set<Specialty> specialties;
-
+					
+	@JsonProperty("question")
 	@Column(name = "Question",nullable = false)
-	@NotBlank(message = "Question is manadtory")
-	private String Question;
+	//@NotEmpty(message = "Question is manadtory")
+	@NotEmpty(message = "question should not be empty")
+	private String question;
 
 	@Column(name = "Answer",nullable = false)
 	@NotBlank(message = "Answer is manadtory")
@@ -103,7 +106,7 @@ public class User {
 		this.city = city;
 		this.pincode = pincode;
 		this.specialties = specialties;
-		Question = question;
+		question = question;
 		this.answer = answer;
 		this.createdDate = createdDate;
 		this.roles = roles;
@@ -204,11 +207,11 @@ public class User {
 	}
 
 	public String getQuestion() {
-		return Question;
+		return question;
 	}
 
 	public void setQuestion(String question) {
-		Question = question;
+		question = question;
 	}
 
 	public String getAnswer() {
