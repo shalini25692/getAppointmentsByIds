@@ -18,13 +18,15 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * @author RAM
  */
 @Entity
-public class User {
+public class User 
+{
 
 	@Id
 	@Column(name = "UserName",unique = true,nullable = false)
@@ -81,17 +83,20 @@ public class User {
 	private Date createdDate;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
-			@JoinColumn(name = "ROLE_ID") })
+	@JoinTable(name = "user_role", 
+	           joinColumns ={ @JoinColumn(name = "USER_ID") }, 
+               inverseJoinColumns = {@JoinColumn(name = "ROLE_ID") })
 	private Set<Role> roles;
 
-	public User() {
+	public User() 
+	{
 
 	}
 
 	public User(String username, String firstname, String lastname, String emailid, String password, String mobileno,
 			String street, String city, String pincode, Set<Specialty> specialties, String question,
-			String answer, Date createdDate, Set<Role> roles) {
+			String answer, Date createdDate, Set<Role> roles) 
+	{
 		super();
 		this.username = username;
 		this.firstname = firstname;

@@ -2,6 +2,7 @@ package com.healthify.api.serviceimpl;
 
 import java.sql.Date;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -54,9 +55,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getAllUsers() {
-
-		return null;
+	public List<User> getAllUsers() 
+	{
+       
+		List<User> allUsers = dao.getAllUsers();
+		
+		return allUsers;
 
 	}
 
@@ -67,7 +71,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Long getUsersTotalCounts() {
+	public Long getUsersTotalCounts() 
+	{
 		return dao.getUsersTotalCounts();
 	}
 

@@ -20,7 +20,8 @@ public class ReceptionistServiceImpl implements ReceptionistService {
 	private ReceptionistDao dao;
 	
 	@Override
-	public DoctorsTimeOff checkDoctorTimeOff(String doctorName, Date date) {
+	public DoctorsTimeOff checkDoctorTimeOff(String doctorName, Date date) 
+	{
 		
 		return dao.checkDoctorTimeOff(doctorName, date);
 	}

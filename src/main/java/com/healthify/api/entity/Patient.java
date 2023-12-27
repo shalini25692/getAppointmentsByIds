@@ -63,7 +63,7 @@ public class Patient {
 	@Column(name = "register_date")
 	private Date registerDate;
 	
-	  @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Admission admission;
 
 

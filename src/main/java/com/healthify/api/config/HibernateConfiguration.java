@@ -20,7 +20,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
-public class HibernateConfiguration {
+public class HibernateConfiguration 
+{
 
 	@Value("${db.driver}")
 	private String DB_DRIVER;
@@ -50,7 +51,8 @@ public class HibernateConfiguration {
 	private String ENTITYMANAGER_PACKAGES_TO_SCAN;
 
 	@Bean
-	public DataSource dataSource() {
+	public DataSource dataSource() 
+	{
 		DriverManagerDataSource  dataSource= new DriverManagerDataSource();
 		dataSource.setDriverClassName(DB_DRIVER);
 		dataSource.setUrl(DB_URL);
@@ -60,7 +62,8 @@ public class HibernateConfiguration {
 	}
 
 	@Bean
-	public LocalSessionFactoryBean sessionFactory() {
+	public LocalSessionFactoryBean sessionFactory() 
+	{
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
 		sessionFactory.setPackagesToScan(ENTITYMANAGER_PACKAGES_TO_SCAN);
@@ -76,7 +79,8 @@ public class HibernateConfiguration {
 	}
 
 	@Bean
-	public HibernateTransactionManager transactionManager() {
+	public HibernateTransactionManager transactionManager() 
+	{
 		HibernateTransactionManager txManager = new HibernateTransactionManager();
 		txManager.setSessionFactory(sessionFactory().getObject());
 		return txManager;

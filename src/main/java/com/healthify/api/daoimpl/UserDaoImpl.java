@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -103,9 +105,14 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public List<User> getAllUsers() {
 		Session session = sf.getCurrentSession();
-		try {
-
-		} catch (Exception e) {
+		try
+		{
+			Criteria criteria = session.createCriteria(User.class);
+			List<User> list = criteria.list();
+			return list;
+		}
+		catch (Exception e) 
+		{
 			e.printStackTrace();
 		}
 		return null;
@@ -122,12 +129,22 @@ public class UserDaoImpl implements UserDao {
 		return null;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
-	public Long getUsersTotalCounts() {
+	public Long getUsersTotalCounts() 
+	{
 		Session session = sf.getCurrentSession();
-		try {
-
-		} catch (Exception e) {
+		
+		try
+		{
+             Criteria criteria = session.createCriteria(User.class);
+             criteria.setProjection(Projections.rowCount()); 
+             Long count = (Long) criteria.uniqueResult(); 
+             return count;
+			
+		}
+		catch (Exception e) 
+		{
 			e.printStackTrace();
 		}
 		return null;
