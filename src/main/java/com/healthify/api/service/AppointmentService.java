@@ -20,7 +20,7 @@ public interface AppointmentService {
 
 	Appointment getAppointmentById(String patientId);
 
-	List<Appointment> getAppointmentsByPatientsIds(List<String> patientsId);
+	List<Appointment> getAppointmentsByPatientsIds(List<Long> ids);
 
 	List<Appointment> getAppointmentsByDoctorIdAndAppointmentDate(String doctorId, Date appointmentDate);
 
@@ -44,5 +44,7 @@ public interface AppointmentService {
 	List<Appointment> getTop5AppointmentsByDate(Date date);
 
 	Appointment appointmentAvailibityChecker();
+
+	
 
 }

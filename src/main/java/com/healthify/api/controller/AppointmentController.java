@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.healthify.api.entity.Appointment;
 import com.healthify.api.service.AppointmentService;
+
+import net.bytebuddy.asm.Advice.Return;
 
 /**
  * @author RAM
@@ -54,10 +57,21 @@ public class AppointmentController {
 		return null;
 	}
 
-	@GetMapping(value = "/get-appointment-by-ids/{ids}", produces = "application/json")
-	public ResponseEntity<List<Appointment>> getAppointmentsByPatientsIds(@PathVariable List<String> ids) {
-		return null;
-	}
+	@GetMapping(value = "/get-appointment-by-ids", produces = "application/json")
+	public ResponseEntity<List<Appointment>> getAppointmentsByPatientsIds(@RequestParam List<Long> ids) {
+		
+		List<Appointment> list =	service.getAppointmentsByPatientsIds(ids);
+		if(!list.isEmpty() && list!=null) {
+			System.out.println(list);
+		return new ResponseEntity<List<Appointment>>(list,HttpStatus.OK);
+		
+			
+		}else {
+		return	new ResponseEntity<List<Appointment>>(list,HttpStatus.NOT_FOUND);
+		}
+		}
+	
+	
 
 	@GetMapping(value = "/get-appointment-by-drid-apointmentdate/{drid}/{date}", produces = "application/json")
 	public ResponseEntity<List<Appointment>> getAppointmentsByDoctorIdAndAppointmentDate(@PathVariable String drid,
