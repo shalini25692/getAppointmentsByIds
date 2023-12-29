@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Appointment {
 	@Id
 	@Column(name = "AppointmentPatientId")
-	private String appointmentpatientid;
+	private Long appointmentpatientid;
 	
 	@NotBlank
 	@Pattern(regexp = "^[a-zA-Z ]+[a-zA-Z0-9]*$", message = "First name not valid")
@@ -93,12 +93,12 @@ public class Appointment {
 	}
 
 
-	public String getAppointmentpatientid() {
+	public Long getAppointmentpatientid() {
 		return appointmentpatientid;
 	}
 
 
-	public void setAppointmentpatientid(String appointmentpatientid) {
+	public void setAppointmentpatientid(Long appointmentpatientid) {
 		this.appointmentpatientid = appointmentpatientid;
 	}
 
